@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MVC_Final.Models.MVC_Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+
+<p>
+    <a href="@Url.Action("Edit","B_product")" class="btn btn-default">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.product_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product_price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product_discount)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.product_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product_discount)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "B_product", new { id = item.product_id})" class="btn btn-default">  Edit</a>
+            <a onclick="Delete(@item.product_id)" class="btn btn-default">  Delete</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+        function Delete(id) {
+            alertify.confirm('CRUD Operations', 'Are you sure you want to Delete this Record ?', function () {
+                window.location.href = '@Url.Action("Delete","B_product")/' + id;
+            },null );
+        }
+    </script>
+    }
